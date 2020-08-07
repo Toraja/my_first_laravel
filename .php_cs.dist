@@ -1,0 +1,13 @@
+<?php
+
+return PhpCsFixer\Config::create()
+    ->setRules([
+        '@PSR2' => true,
+        'binary_operator_spaces' => [
+            'default' => 'single_space',
+            'operators' => [
+                '=>' => 'align_single_space',
+            ]
+        ],
+    ])
+;
