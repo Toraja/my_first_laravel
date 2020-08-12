@@ -20,15 +20,58 @@ class AnimalController extends Controller
         ['type' => 2, 'name' => 'Carine', 'age' => 5],
     ];
 
+    /**
+     * @OA\Get(
+     *     path="/api/animal-types",
+     *     description="list animal types",
+     *     @OA\Response(
+     *         response="200",
+     *         description="success",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 @OA\Property(property="type_id", type="integer"),
+     *                 @OA\Property(property="type_name", type="string"),
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(response=404, description="Resource Not Found"),
+     * )
+     */
     public function listTypes()
     {
-        return response($this->animalTypes);
+        $types = [];
+        foreach ($this->animalTypes as $id => $name) {
+            array_push($types, ['type_id' => $id, 'type_name' => $name]);
+        }
+        return response(json_encode($types));
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/animal-types/{id}",
+     *     description="list animal types",
+     *     @OA\Parameter(
+     *         name="id",
+     *         description="animal type ID",
+     *         required=true,
+     *         in="path",
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="type_name", type="string"),
+     *         ),
+     *     ),
+     *     @OA\Response(response=404, description="Resource Not Found"),
+     * )
+     */
     public function animalOfID($typeID)
     {
         if (array_key_exists($typeID, $this->animalTypes)) {
-            return response($this->animalTypes[$typeID]);
+            return response(['type_name' => $this->animalTypes[$typeID]]);
         }
         return (new NotFoundController())->notFound();
     }
@@ -49,9 +92,50 @@ class AnimalController extends Controller
         return response($animals);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/animals",
+     *     description="get animals",
+     *     @OA\Response(
+     *         response="200",
+     *         description="success",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 @OA\Property(property="type", type="integer"),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="age", type="integer"),
+     *             ),
+     *         ),
+     *     ),
+     * )
+     */
+    public function getAnimals()
+    {
+        return response($this->animals);
+    }
+
+    /**
+    * @OA\Post(
+    *     path="/api/animals",
+    *     description="Add an animal",
+    *     @OA\RequestBody(
+    *         required=true,
+    *         @OA\JsonContent(
+    *             @OA\Property(property="type", type="integer"),
+    *             @OA\Property(property="name", type="string"),
+    *             @OA\Property(property="age", type="integer"),
+    *         ),
+    *     ),
+    *     @OA\Response(
+    *         response="302",
+    *         description="redirect to /api/animals",
+    *     ),
+    * )
+    */
     public function addAnimal()
     {
-        // TODO implement
-        echo 'hi';
+        array_push($this->animals, request());
+        return redirect('/api/animals');
     }
 }

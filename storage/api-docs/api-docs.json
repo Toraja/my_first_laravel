@@ -1,0 +1,141 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My first  laravel",
+        "description": "Experimentation of laravel",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/animal-types": {
+            "get": {
+                "description": "list animal types",
+                "operationId": "App\\Http\\Controllers\\AnimalController::listTypes",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "type_id": {
+                                                "type": "integer"
+                                            },
+                                            "type_name": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/animal-types/{id}": {
+            "get": {
+                "description": "list animal types",
+                "operationId": "App\\Http\\Controllers\\AnimalController::animalOfID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "animal type ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "type_name": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/animals": {
+            "get": {
+                "description": "get animals",
+                "operationId": "App\\Http\\Controllers\\AnimalController::getAnimals",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "type": {
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "age": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Add an animal",
+                "operationId": "App\\Http\\Controllers\\AnimalController::addAnimal",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "type": {
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "age": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "302": {
+                        "description": "redirect to /api/animals"
+                    }
+                }
+            }
+        }
+    }
+}

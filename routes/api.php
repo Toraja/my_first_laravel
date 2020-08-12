@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('/animalTypes')->group(function () {
+Route::prefix('/animal-types')->group(function () {
     Route::get('/', 'AnimalController@listTypes');
 
     Route::prefix('{typeId}')->group(function () {
@@ -35,6 +35,7 @@ Route::prefix('/animalTypes')->group(function () {
 });
 
 Route::prefix('/animals')->group(function () {
+    Route::get('/', 'AnimalController@getAnimals');
     Route::post('/', 'AnimalController@addAnimal');
 });
 
